@@ -1,6 +1,12 @@
 package app;
 
-public class Date {
+public class Date implements IDate {
+	
+	private final static int MINYEAR = 1;
+	private final static int MAXYEAR = 9999;
+	private final static IDate MINDATE = new Date(MINYEAR, 1, 1);
+	private final static IDate MAXDATE = new Date(MAXYEAR, 12, 31);
+	
 	
 	private int year;
 	private int month;
@@ -16,24 +22,72 @@ public class Date {
 		return year;
 	}
 
-	public void setYear(int year) {
-		this.year = year;
-	}
-
 	public int getMonth() {
 		return month;
-	}
-
-	public void setMonth(int month) {
-		this.month = month;
 	}
 
 	public int getDay() {
 		return day;
 	}
 
-	public void setDay(int day) {
-		this.day = day;
+	@Override
+	public Date today() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Date fromTimeStamp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Date fromOrdinal(Date date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Date replace(int year, int month, int day) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int toOrdinal(Date date) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int weekday(Date date) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int isoWeekday(Date date) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int[] isoCalendar(Date date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String isoFormat() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String cTime(Date date) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
