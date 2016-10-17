@@ -1,18 +1,28 @@
 package app;
 
 public class Date implements IDate {
-	
+
 	private final static int MINYEAR = 1;
 	private final static int MAXYEAR = 9999;
+
+	// ATTENTION : @SuppressWarnings à enlever plus tard
+	@SuppressWarnings("unused")
 	private final static IDate MINDATE = new Date(MINYEAR, 1, 1);
+	@SuppressWarnings("unused")
 	private final static IDate MAXDATE = new Date(MAXYEAR, 12, 31);
-	
-	
+
 	private int year;
 	private int month;
 	private int day;
-	
-	public Date(int year, int month, int day){
+
+	/**
+	 * 
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @throws IllegalArgumentException
+	 */
+	public Date(int year, int month, int day) throws IllegalArgumentException {
 		this.year = year;
 		this.month = month;
 		this.day = day;
@@ -30,20 +40,31 @@ public class Date implements IDate {
 		return day;
 	}
 
-	@Override
-	public Date today() {
+	/**
+	 * 
+	 * @return
+	 */
+	public static final Date today() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public Date fromTimeStamp() {
+	/**
+	 * 
+	 * @return
+	 */
+	public static final Date fromTimeStamp() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public Date fromOrdinal(Date date) {
+	/**
+	 * 
+	 * @param date
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public static final Date fromOrdinal(Date date) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -73,7 +94,7 @@ public class Date implements IDate {
 	}
 
 	@Override
-	public int[] isoCalendar(Date date) {
+	public IsoCalendar isoCalendar(Date date) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -89,5 +110,6 @@ public class Date implements IDate {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+
 }
