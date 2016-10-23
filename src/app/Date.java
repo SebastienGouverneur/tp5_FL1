@@ -5,10 +5,7 @@ public class Date implements IDate {
 	private final static int MINYEAR = 1;
 	private final static int MAXYEAR = 9999;
 
-	// ATTENTION : @SuppressWarnings à enlever plus tard
-	@SuppressWarnings("unused")
 	private final static IDate MINDATE = new Date(MINYEAR, 1, 1);
-	@SuppressWarnings("unused")
 	private final static IDate MAXDATE = new Date(MAXYEAR, 12, 31);
 
 	private int year;
@@ -105,11 +102,26 @@ public class Date implements IDate {
 		return null;
 	}
 
+    @Override
+    public String toString() {
+        String res = "";
+        res += this.day + "/";
+        res += this.month + "/";
+        res += this.year;
+        return res;
+    }
+
 	@Override
 	public String cTime(Date date) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
+    private boolean equals(Date date) {
+        boolean res = true;
+        res &= this.year == date.year;
+        res &= this.month == date.month;
+        res &= this.day == date.day;
+        return res;
+    }
 }
