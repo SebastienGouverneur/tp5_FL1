@@ -1,6 +1,5 @@
 package app.test;
 
-import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
@@ -31,8 +30,17 @@ public class DateTest {
 	
 	@Test
 	public void testFromTimestamp() {
-		//TODO : Alexandre
-		fail("Not yet implemented");
+		assertEquals(Date.today(),Date.fromTimeStamp(System.currentTimeMillis() / 1000L));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFromTimestampBefore1970() {
+		Date.fromTimeStamp(-1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFromTimestampAfter2030() {
+		Date.fromTimeStamp(Integer.MAX_VALUE + 1);	
 	}
 
 }

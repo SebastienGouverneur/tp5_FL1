@@ -68,3 +68,15 @@ local.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+#Fichiers auxiliaires latex
+*.el
+*.tps
+*.aux
+*.bbl
+*.blg
+*.log
+*.synctex
+*.toc
+*.tcp
+rapport.out

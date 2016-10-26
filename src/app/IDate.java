@@ -1,58 +1,56 @@
 package app;
 
 /**
- * 
- *
+ * Java Conversion of the Python class date
+ * @see <a href="https://docs.python.org/3.3/library/datetime.html#datetime.date">Python doc</a>
  */
 public interface IDate {
-
-	/**
-	 * 
-	 * @param year
-	 * @param month
-	 * @param day
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	Date replace(int year, int month, int day) throws IllegalArgumentException;
 	
 	/**
-	 * @param date
-	 * @return
+	 * Modifies and returns the date according to the arguments (an argument's value of 0 means that the old value is kept)
+	 * @param year the year of the modified date
+	 * @param month the month of the modified date
+	 * @param day the modified date
+	 * @return the modified date
+	 * @throws IllegalArgumentException if one of the arguments is impossible to satisfy (month == 13 by example)
 	 */
-	int toOrdinal(Date date);
+	IDate replace(int year, int month, int day) throws IllegalArgumentException;
 	
 	/**
-	 * @param date
-	 * @return
+	 * @return the proleptic Gregorian ordinal of the date, 
+	 * where January 1 of year 1 has ordinal 1
 	 */
-	int weekday(Date date);
+	int toOrdinal();
 	
 	/**
-	 * @param date
-	 * @return
+	 * @return the day of the week as an integer, where Monday is 0 and Sunday is 6
 	 */
-	int isoWeekday(Date date);
+	int weekDay();
 	
 	/**
-	 * @param date
-	 * @return
+	 * @return the day of the week as an integer, where Monday is 1 and Sunday is 7
 	 */
-	IsoCalendar isoCalendar(Date date);
+	int isoWeekDay();
 	
 	/**
-	 * @return
+	 * @return a conversion of the date as an IIsoCalendar
+	 */
+	IsoCalendar isoCalendar();
+	
+	/**
+	 * @return a string representing the date in ISO 8601 format, ‘YYYY-MM-DD’
 	 */
 	String isoFormat();
 	
 	/**
-	 * @return
+	 * Same as{@link #isoFormat() isoFormat}
+	 * @return a string representing the date in ISO 8601 format, ‘YYYY-MM-DD’
 	 */
 	String toString();
 	
 	/**
-	 * @param date
-	 * @return
+	 * @return a string representing the date, for example 
+	 * date(2002, 12, 4).ctime() == 'Wed Dec 4 00:00:00 2002'.
 	 */
-	String cTime(Date date);
+	String cTime();
 }
