@@ -43,7 +43,7 @@ public class Date implements IDate {
 	 * @return
 	 */
 	public static final Date today() {
-		//changer �a, j'ai fait un truc vite fait  pour pouvoir tester fromTimeStamp, je sais pas si c'est bien
+		//changer ça, j'ai fait un truc vite fait  pour pouvoir tester fromTimeStamp, je sais pas si c'est bien
 		//TODO
 		Calendar calendar = new GregorianCalendar();
 		return new Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
@@ -198,7 +198,6 @@ public class Date implements IDate {
 	 */
 	@Override
 	public int toOrdinal() {
-		// TODO Auto-generated method stub
 		int ordinalOfCurrentYear = 0;
 		int[] numberDaysPerMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
 		
@@ -211,19 +210,31 @@ public class Date implements IDate {
 		
 		ordinalOfCurrentYear += day;
 		
-		return (year - 1) * 365 + ((year - 1) / 4) - year / 100 + year / 400 + ordinalOfCurrentYear;
+		return (year - 1) * 365 + ((year - 1) / 4) - (year -1) / 100 + (year - 1) / 400 + ordinalOfCurrentYear;
 	}
 
+	/* Java modulo operator (%) may result in negative integer.
+	 * Example: -1 % 2 returns -1
+	 * We could like to avoid this behavior.
+	 */
+	private int noNegativeModulo(int a, int b){
+		return (a % b + b) % b;
+	}
+	/**
+	 * @return the day of the week from 0 (Monday) to 6 (Sunday)
+	 */
 	@Override
 	public int weekDay() {
-		// TODO Auto-generated method stub
-		return 0;
+		return noNegativeModulo(noNegativeModulo(this.toOrdinal(), 7) - 1, 7);
 	}
 
+	/**
+	 * 
+	 * @return the day of the week from 1 (Monday) to 7 (Sunday)
+	 */
 	@Override
 	public int isoWeekDay() {
-		// TODO Auto-generated method stub
-		return 0;
+		return weekDay() + 1;
 	}
 
 	@Override
