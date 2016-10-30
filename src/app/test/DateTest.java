@@ -42,5 +42,17 @@ public class DateTest {
 	public void testFromTimestampAfter2030() {
 		Date.fromTimeStamp(Integer.MAX_VALUE + 1);	
 	}
+	
+	@Test
+	public void testToOrdinal(){
+		IDate date1 = new Date(2016, 1, 1);
+		IDate date2 = new Date(2000, 2, 20);
+		IDate date3 = new Date(1993, 12, 31);
+		assertEquals(1, date.toOrdinal());
+		assertEquals(735964, date1.toOrdinal());
+		assertEquals(730170, date2.toOrdinal());
+		assertEquals(727928, date3.toOrdinal());
+
+	}
 
 }

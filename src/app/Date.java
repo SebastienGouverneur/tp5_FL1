@@ -43,7 +43,7 @@ public class Date implements IDate {
 	 * @return
 	 */
 	public static final Date today() {
-		//changer ça, j'ai fait un truc vite fait  pour pouvoir tester fromTimeStamp, je sais pas si c'est bien
+		//changer ï¿½a, j'ai fait un truc vite fait  pour pouvoir tester fromTimeStamp, je sais pas si c'est bien
 		//TODO
 		Calendar calendar = new GregorianCalendar();
 		return new Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
@@ -192,10 +192,26 @@ public class Date implements IDate {
 		return null;
 	}
 
+	/**
+	 * Number of days between this date and 1/1/1
+	 * @return ordinal value
+	 */
 	@Override
 	public int toOrdinal() {
 		// TODO Auto-generated method stub
-		return 0;
+		int ordinalOfCurrentYear = 0;
+		int[] numberDaysPerMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+		
+		for (int i = 0; i < month - 1; i++){
+			ordinalOfCurrentYear += numberDaysPerMonth[i];
+		}
+		
+		if (month > 2 && isLeapYear(year))
+			ordinalOfCurrentYear++;
+		
+		ordinalOfCurrentYear += day;
+		
+		return (year - 1) * 365 + ((year - 1) / 4) - year / 100 + year / 400 + ordinalOfCurrentYear;
 	}
 
 	@Override
