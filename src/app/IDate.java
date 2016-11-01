@@ -17,6 +17,12 @@ public interface IDate {
 	IDate replace(int year, int month, int day) throws IllegalArgumentException;
 	
 	/**
+	 * @return the date corresponding to the proleptic Gregorian ordinal,
+	 * where January 1 of year 1 has ordinal 1
+	 */
+	Date fromOrdinal(int ordinal) throws IllegalArgumentException;
+	
+	/**
 	 * @return the proleptic Gregorian ordinal of the date, 
 	 * where January 1 of year 1 has ordinal 1
 	 */
@@ -38,13 +44,13 @@ public interface IDate {
 	IsoCalendar isoCalendar();
 	
 	/**
-	 * @return a string representing the date in ISO 8601 format, ‘YYYY-MM-DD’
+	 * @return a string representing the date in ISO 8601 format, ï¿½YYYY-MM-DDï¿½
 	 */
 	String isoFormat();
 	
 	/**
 	 * Same as{@link #isoFormat() isoFormat}
-	 * @return a string representing the date in ISO 8601 format, ‘YYYY-MM-DD’
+	 * @return a string representing the date in ISO 8601 format, ï¿½YYYY-MM-DDï¿½
 	 */
 	String toString();
 	
