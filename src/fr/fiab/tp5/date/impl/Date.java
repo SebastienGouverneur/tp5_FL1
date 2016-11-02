@@ -147,39 +147,35 @@ public class Date implements IDate {
 		
 		/* calcul year */
 		currentYear += (int) (ordinal / 365.25);
-		System.out.println(currentYear);
 		
 		/* calcul month and day not leap year */
 		if (!isLeapYear(currentYear)) {
-			currentDayInYearUnLeap = (int) (ordinal - ((currentYear - 1) * 365.25)); // TODO revoir calcul
+			
+			currentDayInYearUnLeap = ordinal - new Date(currentYear, 1, 1).toOrdinal() + 1;
 			if(currentDayInYearUnLeap <= numberDaysPerMonthUnLeap[0]) currentMonth = i + 1;
 			else {
-				while (currentDayInYearUnLeap <= auxCurrentDayUnLeap) {
+				while (auxCurrentDayUnLeap <= currentDayInYearUnLeap) {
 					i++;
 					auxCurrentDayUnLeap += numberDaysPerMonthUnLeap[i];
 					
 				}
-				currentMonth += i + 1;
-				currentDay += numberDaysPerMonthUnLeap[i + 1] - (auxCurrentDayUnLeap - currentDayInYearUnLeap);
+				currentMonth += i;
+				currentDay += ordinal - new Date(currentYear, currentMonth, 1).toOrdinal();
 			}
 		}
 		/*calcul month and day leap year */
 		else {
-			currentDayInYearLeap = (int) (ordinal - ((currentYear - 1) * 365.25)); // TODO revoir calcul
-			System.out.println("currentYEAR " + currentYear);
-			System.out.println("currentYearInLeap " + currentDayInYearLeap);
+			currentDayInYearLeap = ordinal - new Date(currentYear, 1, 1).toOrdinal() + 1;
 			if(currentDayInYearLeap <= numberDaysPerMonthLeap[0]) currentMonth = i + 1;
 			else {
-				while (currentDayInYearLeap <= auxCurrentDayLeap) {
+				while (auxCurrentDayLeap <= currentDayInYearLeap) {
 					i++;
 					auxCurrentDayLeap += numberDaysPerMonthLeap[i];
 					
 				}
 				currentMonth += i;
-				System.out.println(currentMonth);
-				currentDay += numberDaysPerMonthLeap[i + 1] - (auxCurrentDayLeap - currentDayInYearLeap) - 1;
+				currentDay += ordinal - new Date(currentYear, currentMonth, 1).toOrdinal();;
 			}
-		
 		}
 		
 		return new Date(currentYear, currentMonth, currentDay);

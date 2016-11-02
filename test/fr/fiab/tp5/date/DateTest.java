@@ -50,11 +50,16 @@ public class DateTest {
 	
 	@Test(timeout = 1000)
 	public void testFromOrdinal() {
-		IDate date2 = new Date(2, 5, 14);
-		assertEquals(date2, date2.fromOrdinal(733114));
-		//IDate date1 = new Date(1, 1, 1);
-		//assertEquals(date1, date1.fromOrdinal(1));
-		//System.out.println(new Date(1, 1, 1).fromOrdinal(499));
+		IDate date1 = new Date(1, 1, 1);
+		IDate date2 = new Date(2132, 8, 11);
+		IDate date3 = new Date(1, 2, 1);
+		IDate date4 = new Date(2008, 3, 13);
+		IDate date5 = new Date(1826, 4, 9);
+		assertEquals(date1, date1.fromOrdinal(1));
+		assertEquals(date2, date2.fromOrdinal(778555));
+		assertEquals(date3, date3.fromOrdinal(32));
+		assertEquals(date4, date4.fromOrdinal(733114));
+		assertEquals(date5, date5.fromOrdinal(666666));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
