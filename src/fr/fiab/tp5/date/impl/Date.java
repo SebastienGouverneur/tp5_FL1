@@ -12,6 +12,11 @@ public class Date implements IDate {
 
 	private final static int MINYEAR = 1;
 	private final static int MAXYEAR = 9999;
+	
+	private final static int[] numberDaysPerMonthUnLeap = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+	private final static int[] numberDaysPerMonthLeap = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+	private final static String[] monthsName = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep", "Oct", "Nov", "Dec" };
+	private final static String[] daysName = {"Mon", "Thu", "Wed", "Tue", "Wed", "Sat", "Sun"};
 
 	public final static IDate MINDATE = new Date(MINYEAR, 1, 1);
 	public final static IDate MAXDATE = new Date(MAXYEAR, 12, 31);
@@ -117,7 +122,7 @@ public class Date implements IDate {
 
 		return new Date(currentYear, currentMonth, currentDay);
 	}
-
+	
 	/**
 	 * Return the date corresponding to the proleptic Gregorian ordinal,
 	 * where January 1 of year 1 has ordinal 1
@@ -133,8 +138,6 @@ public class Date implements IDate {
 			throw new IllegalArgumentException("Ordinal must be between 1 and date.max.toOrdinal()");
 		}
 		int i = 0;
-		int[] numberDaysPerMonthUnLeap = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
-		int[] numberDaysPerMonthLeap = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30};
 		int currentYear = 1;
 		int currentMonth = 1;
 		int currentDay = 1;
@@ -256,10 +259,9 @@ public class Date implements IDate {
 	@Override
 	public int toOrdinal() {
 		int ordinalOfCurrentYear = 0;
-		int[] numberDaysPerMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
 		
 		for (int i = 0; i < month - 1; i++){
-			ordinalOfCurrentYear += numberDaysPerMonth[i];
+			ordinalOfCurrentYear += numberDaysPerMonthUnLeap[i];
 		}
 		
 		if (month > 2 && isLeapYear(year))
@@ -318,10 +320,7 @@ public class Date implements IDate {
 
 	@Override
 	public String cTime() {
-		String[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep", "Oct", "Nov", "Dec" };
-		String[] days = {"Mon", "Thu", "Wed", "Tue", "Wed", "Sat", "Sun"};
-		
-		return days[weekDay()] + " " + months[this.month-1] + " " + this.day + "00:00:00" + " " + this.year;
+		return daysName[weekDay()] + " " + monthsName[this.month-1] + " " + this.day + "00:00:00" + " " + this.year;
 	}
 
 	@Override
