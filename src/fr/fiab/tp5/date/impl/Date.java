@@ -276,7 +276,7 @@ public class Date implements IDate {
 	 * Example: -1 % 2 returns -1
 	 * We could like to avoid this behavior.
 	 */
-	private int noNegativeModulo(int a, int b){
+	private static int noNegativeModulo(int a, int b){
 		return (a % b + b) % b;
 	}
 	/**
@@ -296,15 +296,33 @@ public class Date implements IDate {
 		return weekDay() + 1;
 	}
 
+	private static final int pWeek(int year) {
+		return noNegativeModulo(year + year/4 - year/100 + year/400, 7);
+	}
+	
+	private static final int numberOfWeeks(int year) {
+		if(pWeek(year) == 5 || pWeek(year-1) == 3) return 53;
+		else return 52;
+	}
+	
 	@Override
 	public IsoCalendar isoCalendar() {
 		//TODO C'est une ebauche :P y'a plusieurs trucs à verifier je crois si on tombe sur des années bissectiles
 		IsoCalendar cal = new IsoCalendar();
+		int year = this.year;
 		cal.setDay(this.isoWeekDay());
 		int relativeOrdinal = this.toOrdinal() - new Date(this.year, 1, 1).toOrdinal();
 		int week = (relativeOrdinal - isoWeekDay() + 10)/7;
+		if(week == 0) {
+			year--;
+			week = numberOfWeeks(year);
+		}
+		else if(week > numberOfWeeks(this.year)) {
+			week = 1;
+			year++;
+		}
 		cal.setWeek(week);
-		cal.setYear(this.year);
+		cal.setYear(year);
 		return cal;
 	}
 

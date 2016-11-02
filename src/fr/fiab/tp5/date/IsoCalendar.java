@@ -61,4 +61,40 @@ public class IsoCalendar {
 	public void setYear(int year) {
 		this.year = year;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + day;
+		result = prime * result + week;
+		result = prime * result + year;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof IsoCalendar)) {
+			return false;
+		}
+		IsoCalendar other = (IsoCalendar) obj;
+		if (day != other.day) {
+			return false;
+		}
+		if (week != other.week) {
+			return false;
+		}
+		if (year != other.year) {
+			return false;
+		}
+		return true;
+	}
+	
+	
 }
