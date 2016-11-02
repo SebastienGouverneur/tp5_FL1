@@ -2,7 +2,6 @@ package app.test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,10 +16,6 @@ public class DateTest {
 	@Before
 	public void setUp() throws Exception {
 		date = new Date(1,1,1);//1er janvier de l'an 1
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 
 	@Test

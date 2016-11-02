@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 public class Date implements IDate {
 
@@ -266,7 +265,16 @@ public class Date implements IDate {
 
 	@Override
 	public boolean equals(Object o) {
-		Date date = (Date) o;
+		if(o == this) {
+			return true ; 
+		}
+		if(o == null) {
+			return false ;
+		}
+		if (!(o instanceof Date)) {
+			return false ;
+		}
+		Date date = (Date) o ;		
 		boolean res = true;
 		res &= this.year == date.year;
 		res &= this.month == date.month;
