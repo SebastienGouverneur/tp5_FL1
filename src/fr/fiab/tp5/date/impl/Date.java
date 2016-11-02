@@ -154,8 +154,10 @@ public class Date implements IDate {
 		if (!isLeapYear(currentYear)) {
 
 			currentDayInYearUnLeap = ordinal - new Date(currentYear, 1, 1).toOrdinal() + 1;
-			if (currentDayInYearUnLeap <= numberDaysPerMonthUnLeap[0])
+			if(currentDayInYearUnLeap <= numberDaysPerMonthUnLeap[0]) {
 				currentMonth = i + 1;
+				currentDay = currentDayInYearUnLeap;
+			}
 			else {
 				while (auxCurrentDayUnLeap < currentDayInYearUnLeap) {
 					i++;
@@ -169,8 +171,10 @@ public class Date implements IDate {
 		/* calcul month and day leap year */
 		else {
 			currentDayInYearLeap = ordinal - new Date(currentYear, 1, 1).toOrdinal() + 1;
-			if (currentDayInYearLeap <= numberDaysPerMonthLeap[0])
+			if(currentDayInYearLeap <= numberDaysPerMonthLeap[0]) {
 				currentMonth = i + 1;
+				currentDay = currentDayInYearLeap;
+			}
 			else {
 				while (auxCurrentDayLeap <= currentDayInYearLeap) {
 					i++;
@@ -179,7 +183,6 @@ public class Date implements IDate {
 				}
 				currentMonth += i;
 				currentDay += ordinal - new Date(currentYear, currentMonth, 1).toOrdinal();
-				;
 			}
 		}
 

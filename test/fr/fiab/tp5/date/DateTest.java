@@ -20,6 +20,49 @@ public class DateTest {
 		date = new Date(1, 1, 1);// 1er janvier de l'an 1
 	}
 
+	
+	@Test
+	public void testConstructor(){
+		new Date(1993, 2, 22);
+		new Date(2004, 2, 29);
+		new Date(2003, 2, 28);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMinYearOutOfBound(){
+		new Date(0, 1, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMinMonthOutOfBound(){
+		new Date(1, 0, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMinDayOutOfBound(){
+		new Date(1, 1, 0);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMaxYearOutOfBound(){
+		new Date(10000, 1, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorNoLeapYearWith29Feb(){
+		new Date(2014, 2, 29);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorLeapYearWith30Feb(){
+		new Date(2016, 2, 30);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMaxMonthOutOfBound(){
+		new Date(2014, 13, 31);
+	}
+	
 	@Test
 	public void testToString() {
 		assertEquals("1-1-1", date.toString());
@@ -27,6 +70,7 @@ public class DateTest {
 
 	@Test
 	public void testFromTimestamp() throws Exception {
+<<<<<<< HEAD
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date d1 = format.parse("2016-11-05");
 		Date d2 = Date.fromTimeStamp(d1.getTime() / 1000L);
@@ -45,6 +89,16 @@ public class DateTest {
 		assertEquals(2016, d2.getYear());
 		assertEquals(02, d2.getMonth());
 		assertEquals(28, d2.getDay());
+=======
+		
+		//TODO
+		Date d = Date.fromTimeStamp(0);
+		assertEquals(1970, d.getYear());
+		assertEquals(1, d.getMonth());
+		assertEquals(1, d.getDay());
+
+
+>>>>>>> c5227f3e7b5d631e8f0ea2f0879938f747787115
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -64,22 +118,22 @@ public class DateTest {
 		IDate date3 = new Date(1, 2, 1);
 		IDate date4 = new Date(2008, 3, 13);
 		IDate date5 = new Date(1826, 4, 9);
+		IDate date6 = new Date(2004, 1, 20);
 		assertEquals(date1, Date.fromOrdinal(1));
 		assertEquals(date2, Date.fromOrdinal(778555));
 		assertEquals(date3, Date.fromOrdinal(32));
 		assertEquals(date4, Date.fromOrdinal(733114));
 		assertEquals(date5, Date.fromOrdinal(666666));
+		assertEquals(date6, Date.fromOrdinal(731600));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFromOrdinalBefore1() {
-		IDate date1 = new Date(0, 0, 0);
 		Date.fromOrdinal(0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFromOrdinalAfterMax() {
-		IDate date1 = new Date(0, 0, 0);
 		Date.fromOrdinal(Date.MAXDATE.toOrdinal() + 1);
 	}
 
