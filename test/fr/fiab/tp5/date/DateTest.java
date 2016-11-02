@@ -69,6 +69,14 @@ public class DateTest {
 		date1.fromOrdinal(Date.MAXDATE.toOrdinal() + 1);
 	}
 	
+	@Test(timeout = 1000)
+	public void testIsoCalendar() {
+		IDate d1 = new Date(2003, 12, 29);
+		IDate d2 = new Date(2004, 1, 4);
+		assertEquals(new Date(2004, 1, 1), d1.isoCalendar());
+		assertEquals(new Date(2004, 1,  7), d2.isoCalendar());
+	}
+	
 	@Test
 	public void testToOrdinal(){
 		IDate date1 = new Date(2016, 1, 1);
