@@ -112,12 +112,16 @@ public class DateTest {
 		IDate date3 = new Date(1993, 12, 31);
 		IDate date4 = new Date(1000, 1, 1);
 		IDate date5 = new Date(1000, 3, 11);
+		IDate date6 = new Date(2008, 2, 29);
 		assertEquals(1, date.toOrdinal());
 		assertEquals(735964, date1.toOrdinal());
 		assertEquals(730170, date2.toOrdinal());
 		assertEquals(727928, date3.toOrdinal());
 		assertEquals(364878, date4.toOrdinal());
 		assertEquals(364947, date5.toOrdinal());
+		assertEquals(733101, date6.toOrdinal());
+		assertEquals(date3, Date.fromOrdinal(date3.toOrdinal()));
+		
 
 	}
 	

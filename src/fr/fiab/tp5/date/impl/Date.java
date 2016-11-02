@@ -1,8 +1,6 @@
 package fr.fiab.tp5.date.impl;
 
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import fr.fiab.tp5.date.IDate;
@@ -13,8 +11,8 @@ public class Date implements IDate {
 	private final static int MINYEAR = 1;
 	private final static int MAXYEAR = 9999;
 	
-	private final static int[] numberDaysPerMonthUnLeap = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
-	private final static int[] numberDaysPerMonthLeap = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+	private final static int[] numberDaysPerMonthUnLeap = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	private final static int[] numberDaysPerMonthLeap = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	private final static String[] monthsName = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep", "Oct", "Nov", "Dec" };
 	private final static String[] daysName = {"Mon", "Thu", "Wed", "Tue", "Wed", "Sat", "Sun"};
 
@@ -114,7 +112,7 @@ public class Date implements IDate {
 			currentDayInYearUnLeap = ordinal - new Date(currentYear, 1, 1).toOrdinal() + 1;
 			if(currentDayInYearUnLeap <= numberDaysPerMonthUnLeap[0]) currentMonth = i + 1;
 			else {
-				while (auxCurrentDayUnLeap <= currentDayInYearUnLeap) {
+				while (auxCurrentDayUnLeap < currentDayInYearUnLeap) {
 					i++;
 					auxCurrentDayUnLeap += numberDaysPerMonthUnLeap[i];
 					
