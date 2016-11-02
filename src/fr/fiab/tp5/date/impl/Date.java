@@ -1,8 +1,6 @@
 package fr.fiab.tp5.date.impl;
 
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import fr.fiab.tp5.date.IDate;
