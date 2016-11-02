@@ -95,6 +95,7 @@ public class DateTest {
 		assertEquals(727928, date3.toOrdinal());
 		assertEquals(364878, date4.toOrdinal());
 		assertEquals(364947, date5.toOrdinal());
+		assertEquals(date3, Date.fromOrdinal(date3.toOrdinal()));
 
 	}
 	
