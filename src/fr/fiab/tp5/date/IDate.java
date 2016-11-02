@@ -22,7 +22,7 @@ public interface IDate {
 	 * @return the date corresponding to the proleptic Gregorian ordinal,
 	 * where January 1 of year 1 has ordinal 1
 	 */
-	public Date fromOrdinal(int ordinal) throws IllegalArgumentException;
+	public IDate fromOrdinal(int ordinal) throws IllegalArgumentException;
 	
 	/**
 	 * @return the proleptic Gregorian ordinal of the date, 

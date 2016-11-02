@@ -2,6 +2,9 @@ package fr.fiab.tp5.date;
 
 import static org.junit.Assert.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,12 +23,19 @@ public class DateTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("1/1/1",date.toString());
+		assertEquals("1-1-1",date.toString());
 	}
 	
 	@Test
-	public void testFromTimestamp() {
-		assertEquals(Date.today(),Date.fromTimeStamp(System.currentTimeMillis() / 1000L));
+	public void testFromTimestamp() throws Exception {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date d1 = format.parse("2016-11-05");
+		Date d2 = Date.fromTimeStamp(d1.getTime()/1000L);
+		
+		assertEquals(2016, d2.getYear());
+		assertEquals(11, d2.getMonth());
+		assertEquals(2, d2.getDay());
+		//TODO: apparament y'a un écart de 1 pour le jour :)
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

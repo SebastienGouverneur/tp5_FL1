@@ -45,10 +45,7 @@ public class Date implements IDate {
 	 * @return
 	 */
 	public static final Date today() {
-		//changer ça, j'ai fait un truc vite fait  pour pouvoir tester fromTimeStamp, je sais pas si c'est bien
-		//TODO
-		Calendar calendar = new GregorianCalendar();
-		return new Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
+		return Date.fromTimeStamp(System.currentTimeMillis()/1000L);
 	}
 
 	/**
@@ -131,7 +128,7 @@ public class Date implements IDate {
 	 *             if ordinal < 1 or
 	 *             if ordinal > date.MAXDATE.toOrdinal()
 	 */
-	public Date fromOrdinal(int ordinal) throws IllegalArgumentException {
+	public IDate fromOrdinal(int ordinal) throws IllegalArgumentException {
 		if (ordinal < 1 || ordinal > Date.MAXDATE.toOrdinal()) {
 			throw new IllegalArgumentException("Ordinal must be between 1 and date.max.toOrdinal()");
 		}
@@ -248,9 +245,12 @@ public class Date implements IDate {
 	}
 
 	@Override
-	public Date replace(int year, int month, int day) {
-		// TODO Auto-generated method stub
-		return null;
+	public IDate replace(int year, int month, int day) {
+		
+		if(year != 0) this.year = year;
+		if(month != 0) this.month = month;
+		if(day != 0) this.day = day;
+		return this;
 	}
 
 	/**
@@ -300,25 +300,32 @@ public class Date implements IDate {
 
 	@Override
 	public IsoCalendar isoCalendar() {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO C'est une ebauche :P y'a plusieurs trucs à verifier je crois si on tombe sur des années bissectiles
+		IsoCalendar cal = new IsoCalendar();
+		cal.setDay(this.isoWeekDay());
+		int relativeOrdinal = this.toOrdinal() - new Date(this.year, 1, 1).toOrdinal();
+		int week = (relativeOrdinal - isoWeekDay() + 10)/7;
+		cal.setWeek(week);
+		cal.setYear(this.year);
+		return cal;
 	}
 
 	@Override
 	public String isoFormat() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.year + "-" + this.month + "-" + this.day;
 	}
 
 	@Override
 	public String toString() {
-		return this.day + "/" + this.month + "/" + this.year;
+		return isoFormat();
 	}
 
 	@Override
 	public String cTime() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep", "Oct", "Nov", "Dec" };
+		String[] days = {"Mon", "Thu", "Wed", "Tue", "Wed", "Sat", "Sun"};
+		
+		return days[weekDay()] + " " + months[this.month-1] + " " + this.day + "00:00:00" + " " + this.year;
 	}
 
 	@Override
