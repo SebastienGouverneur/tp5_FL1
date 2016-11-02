@@ -81,13 +81,14 @@ public class DateTest {
 
 	}
 	
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void testFromTimestampBefore1970() {
 		Date.fromTimeStamp(-1);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testFromTimestampAfter2030() {
+	public void testFromTimestampAfter2038() {
 		Date.fromTimeStamp(Integer.MAX_VALUE + 1);	
 	}
 	

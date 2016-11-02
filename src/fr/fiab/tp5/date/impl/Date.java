@@ -36,7 +36,7 @@ public class Date implements IDate {
 		} else if (month < 1 || month > 12) {
 			throw new IllegalArgumentException("The month of a date must be between 1 and 12");
 		} else if (day < 1 || day > Date.daysInMonth(year, month)) {
-			throw new IllegalArgumentException("The month of a date must be between 1 and 12");
+			throw new IllegalArgumentException("The day is incorrect");
 		}
 		this.year = year;
 		this.month = month;
@@ -200,10 +200,23 @@ public class Date implements IDate {
 
 	@Override
 	public IDate replace(int year, int month, int day) {
-		
-		if(year != 0) this.year = year;
-		if(month != 0) this.month = month;
-		if(day != 0) this.day = day;
+		int tmp_year = this.year, tmp_month = this.month;
+		if (year < 0 || year > MAXYEAR)
+			throw new IllegalArgumentException("The year of a date must be between " + MINYEAR + " and " + MAXYEAR);
+		if (month < 0 || month > 12)
+			throw new IllegalArgumentException("The month of a date must be between 1 and 12");
+		if (day < 0)
+			throw new IllegalArgumentException("The day must be higher or equal than 0");
+
+		if(year != 0) tmp_year = year;
+		if(month != 0) tmp_month = month;
+		if(day != 0){
+			if (day > Date.daysInMonth(tmp_year, tmp_month))
+				throw new IllegalArgumentException("The day is incorrect");
+		this.day = day;
+		}
+		this.year = tmp_year;
+		this.month = tmp_month;
 		return this;
 	}
 
