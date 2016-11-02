@@ -11,7 +11,7 @@ public class Date implements IDate {
 	private final static int MAXYEAR = 9999;
 
 	private final static IDate MINDATE = new Date(MINYEAR, 1, 1);
-	private final static IDate MAXDATE = new Date(MAXYEAR, 12, 31);
+	public final static IDate MAXDATE = new Date(MAXYEAR, 12, 31);
 
 	private int year;
 	private int month;
@@ -119,14 +119,73 @@ public class Date implements IDate {
 	}
 
 	/**
+	 * Return the date corresponding to the proleptic Gregorian ordinal,
+	 * where January 1 of year 1 has ordinal 1
 	 * 
-	 * @param date
-	 * @return
+	 * @param ordinal
+	 * @return the local date corresponding to the ordinal specified
+	 * @throws IllegalArgumentException
+	 *             if ordinal < 1 or
+	 *             if ordinal > date.MAXDATE.toOrdinal()
 	 */
-	public static final Date fromOrdinal(Date date) {
-		// TODO Auto-generated method stub
-		return null;
+	public Date fromOrdinal(int ordinal) throws IllegalArgumentException {
+		if (ordinal < 1 || ordinal > Date.MAXDATE.toOrdinal()) {
+			throw new IllegalArgumentException("Ordinal must be between 1 and date.max.toOrdinal()");
+		}
+		int i = 0;
+		int[] numberDaysPerMonthUnLeap = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+		int[] numberDaysPerMonthLeap = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+		int currentYear = 1;
+		int currentMonth = 1;
+		int currentDay = 1;
+		
+		int currentDayInYearUnLeap = 0;
+		int currentDayInYearLeap = 0;
+		
+		int auxCurrentDayUnLeap = numberDaysPerMonthUnLeap[i];
+		int auxCurrentDayLeap = numberDaysPerMonthLeap[i];
+		
+		/* calcul year */
+		currentYear += (int) (ordinal / 365.25);
+		System.out.println(currentYear);
+		
+		/* calcul month and day not leap year */
+		if (!isLeapYear(currentYear)) {
+			currentDayInYearUnLeap = (int) (ordinal - ((currentYear - 1) * 365.25)); // TODO revoir calcul
+			if(currentDayInYearUnLeap <= numberDaysPerMonthUnLeap[0]) currentMonth = i + 1;
+			else {
+				while (currentDayInYearUnLeap <= auxCurrentDayUnLeap) {
+					i++;
+					auxCurrentDayUnLeap += numberDaysPerMonthUnLeap[i];
+					
+				}
+				currentMonth += i + 1;
+				currentDay += numberDaysPerMonthUnLeap[i + 1] - (auxCurrentDayUnLeap - currentDayInYearUnLeap);
+			}
+		}
+		/*calcul month and day leap year */
+		else {
+			currentDayInYearLeap = (int) (ordinal - ((currentYear - 1) * 365.25)); // TODO revoir calcul
+			System.out.println("currentYEAR " + currentYear);
+			System.out.println("currentYearInLeap " + currentDayInYearLeap);
+			if(currentDayInYearLeap <= numberDaysPerMonthLeap[0]) currentMonth = i + 1;
+			else {
+				while (currentDayInYearLeap <= auxCurrentDayLeap) {
+					i++;
+					auxCurrentDayLeap += numberDaysPerMonthLeap[i];
+					
+				}
+				currentMonth += i;
+				System.out.println(currentMonth);
+				currentDay += numberDaysPerMonthLeap[i + 1] - (auxCurrentDayLeap - currentDayInYearLeap) - 1;
+			}
+		
+		}
+		
+		return new Date(currentYear, currentMonth, currentDay);
 	}
+
+
 
 	/**
 	 * Gives the number of days in the given month of a given year

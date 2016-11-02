@@ -1,6 +1,6 @@
 package app.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +36,27 @@ public class DateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testFromTimestampAfter2030() {
 		Date.fromTimeStamp(Integer.MAX_VALUE + 1);	
+	}
+	
+	@Test(timeout = 1000)
+	public void testFromOrdinal() {
+		IDate date2 = new Date(2, 5, 14);
+		assertEquals(date2, date2.fromOrdinal(733114));
+		//IDate date1 = new Date(1, 1, 1);
+		//assertEquals(date1, date1.fromOrdinal(1));
+		//System.out.println(new Date(1, 1, 1).fromOrdinal(499));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFromOrdinalBefore1() {
+		IDate date1 = new Date(0, 0, 0);
+		date1.fromOrdinal(0);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFromOrdinalAfterMax() {
+		IDate date1 = new Date(0, 0, 0);
+		date1.fromOrdinal(Date.MAXDATE.toOrdinal() + 1);
 	}
 	
 	@Test
