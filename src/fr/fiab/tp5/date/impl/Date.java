@@ -69,7 +69,6 @@ public class Date implements IDate {
 		if (time < 0 || time > Integer.MAX_VALUE) {
 			throw new IllegalArgumentException("A timestamp must be between 0 and " + Integer.MAX_VALUE);
 		}
-
 		int day = (int) (time/(24*60*60));
 		int year = (((day * 4) + 2)/1461);
 		int tm_year = year + 1970;
@@ -79,60 +78,6 @@ public class Date implements IDate {
 		int tm_mon = ((day * 12) + 6)/367;
 		int _mday = day + 1 - ((tm_mon * 367) + 5)/12;
 		return new Date(tm_year, tm_mon+1, _mday+1);
-		
-		
-//		int secondsInACommonYear = 31536000;
-//		int secondsInADay = 86400;
-//
-//		int currentYear = 1970;
-//		int currentMonth = 1;
-//		int currentDay = 1;
-//
-//		int elapsedSeconds = 0;
-//
-//		//In a first time we check how many years are contained in the timestamp 
-//		while (elapsedSeconds < timestamp) {
-//			elapsedSeconds += secondsInACommonYear;
-//			if (isLeapYear(currentYear)) {
-//				elapsedSeconds += secondsInADay;
-//			}
-//			currentYear++;
-//		}
-//
-//		//If we have gone over the timestamp, we rollback of 1 year
-//		if (elapsedSeconds > timestamp) {
-//			elapsedSeconds -= secondsInACommonYear;
-//			currentYear--;
-//			if (isLeapYear(currentYear)) {
-//				elapsedSeconds -= secondsInADay;
-//			}
-//		}
-//
-//		//Then number of months
-//		while (elapsedSeconds < timestamp) {
-//			elapsedSeconds += (secondsInADay * daysInMonth(currentYear, currentMonth));
-//			currentMonth++;
-//		}
-//
-//		//Possible rollback
-//		if (elapsedSeconds > timestamp) {
-//			currentMonth--;
-//			elapsedSeconds -= (secondsInADay * daysInMonth(currentYear, currentMonth));
-//		}
-//
-//		//Number of days
-//		while (elapsedSeconds < timestamp) {
-//			elapsedSeconds += secondsInADay;
-//			currentDay++;
-//		}
-//
-//		//Rollback
-//		if (elapsedSeconds > timestamp) {
-//			currentDay--;
-//		}
-//
-//		return new Date(currentYear, currentMonth, currentDay);
-		
 	}
 	
 	/**
