@@ -76,10 +76,23 @@ public class DateTest {
 	
 	@Test(timeout = 1000)
 	public void testIsoCalendar() {
-		IDate d1 = new Date(2003, 12, 29);
-		IDate d2 = new Date(2004, 1, 4);
-		assertEquals(new Date(2004, 1, 1), d1.isoCalendar());
-		assertEquals(new Date(2004, 1,  7), d2.isoCalendar());
+		IsoCalendar cal_2016_11_02 = new IsoCalendar();
+		cal_2016_11_02.setDay(3);
+		cal_2016_11_02.setWeek(44);
+		cal_2016_11_02.setYear(2016);
+		Date d1 = new Date(2016, 11, 02);
+		IsoCalendar actual = d1.isoCalendar();
+		
+		assertEquals(cal_2016_11_02, actual);
+		
+		IsoCalendar cal_2017_01_01 = new IsoCalendar();
+		cal_2017_01_01.setDay(7);
+		cal_2017_01_01.setWeek(52);
+		cal_2017_01_01.setYear(2016);
+		Date d2 = new Date(2017, 01, 01);
+		IsoCalendar actual2 = d2.isoCalendar();
+		
+		assertEquals(cal_2017_01_01, actual2);
 	}
 	
 	@Test
