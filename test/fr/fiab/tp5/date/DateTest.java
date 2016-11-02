@@ -58,7 +58,7 @@ public class DateTest {
 		Date.fromTimeStamp(Integer.MAX_VALUE + 1);	
 	}
 	
-	@Test(timeout = 1000)
+	@Test
 	public void testFromOrdinal() {
 		IDate date1 = new Date(1, 1, 1);
 		IDate date2 = new Date(2132, 8, 11);
