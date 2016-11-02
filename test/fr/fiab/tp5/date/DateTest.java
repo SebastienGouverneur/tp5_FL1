@@ -21,6 +21,49 @@ public class DateTest {
 		date = new Date(1,1,1);//1er janvier de l'an 1
 	}
 
+	
+	@Test
+	public void testConstructor(){
+		new Date(1993, 2, 22);
+		new Date(2004, 2, 29);
+		new Date(2003, 2, 28);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMinYearOutOfBound(){
+		new Date(0, 1, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMinMonthOutOfBound(){
+		new Date(1, 0, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMinDayOutOfBound(){
+		new Date(1, 1, 0);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMaxYearOutOfBound(){
+		new Date(10000, 1, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorNoLeapYearWith29Feb(){
+		new Date(2014, 2, 29);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorLeapYearWith30Feb(){
+		new Date(2016, 2, 30);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorMaxMonthOutOfBound(){
+		new Date(2014, 13, 31);
+	}
+	
 	@Test
 	public void testToString() {
 		assertEquals("1-1-1",date.toString());
