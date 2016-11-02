@@ -1,10 +1,6 @@
 package fr.fiab.tp5.date;
 
 import static org.junit.Assert.*;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import org.junit.Before;
 import org.junit.Test;
 
