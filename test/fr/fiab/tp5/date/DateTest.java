@@ -65,22 +65,22 @@ public class DateTest {
 		IDate date3 = new Date(1, 2, 1);
 		IDate date4 = new Date(2008, 3, 13);
 		IDate date5 = new Date(1826, 4, 9);
+		IDate date6 = new Date(2004, 1, 20);
 		assertEquals(date1, Date.fromOrdinal(1));
 		assertEquals(date2, Date.fromOrdinal(778555));
 		assertEquals(date3, Date.fromOrdinal(32));
 		assertEquals(date4, Date.fromOrdinal(733114));
 		assertEquals(date5, Date.fromOrdinal(666666));
+		assertEquals(date6, Date.fromOrdinal(731600));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testFromOrdinalBefore1() {
-		IDate date1 = new Date(0, 0, 0);
 		Date.fromOrdinal(0);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testFromOrdinalAfterMax() {
-		IDate date1 = new Date(0, 0, 0);
 		Date.fromOrdinal(Date.MAXDATE.toOrdinal() + 1);
 	}
 	
