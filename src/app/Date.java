@@ -10,7 +10,7 @@ public class Date implements IDate {
 	private final static int MINYEAR = 1;
 	private final static int MAXYEAR = 9999;
 
-	private final static IDate MINDATE = new Date(MINYEAR, 1, 1);
+	public final static IDate MINDATE = new Date(MINYEAR, 1, 1);
 	public final static IDate MAXDATE = new Date(MAXYEAR, 12, 31);
 
 	private int year;
