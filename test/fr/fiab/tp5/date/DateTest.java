@@ -70,7 +70,6 @@ public class DateTest {
 
 	@Test
 	public void testFromTimestamp() throws Exception {
-<<<<<<< HEAD
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date d1 = format.parse("2016-11-05");
 		Date d2 = Date.fromTimeStamp(d1.getTime() / 1000L);
@@ -89,7 +88,6 @@ public class DateTest {
 		assertEquals(2016, d2.getYear());
 		assertEquals(02, d2.getMonth());
 		assertEquals(28, d2.getDay());
-=======
 		
 		//TODO
 		Date d = Date.fromTimeStamp(0);
@@ -98,7 +96,6 @@ public class DateTest {
 		assertEquals(1, d.getDay());
 
 
->>>>>>> c5227f3e7b5d631e8f0ea2f0879938f747787115
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -214,76 +211,4 @@ public class DateTest {
 		assertEquals(7, date5.isoWeekDay());
 
 	}
-
-	@Test
-	public void testReplaceYear() { // Test : year has to be replaced
-		Date newDate;
-		newDate = d1.replace(2003, 0, 0);
-		assertNotEquals(d1.getYear(), newDate.getYear()); // years have to be
-															// different
-		assertEquals(2003, newDate.getYear());
-		assertEquals(d1.getMonth(), newDate.getMonth()); // months have to be
-															// the same
-		assertEquals(d1.getDay(), newDate.getDay()); // days have to be the same
-	}
-
-	@Test
-	public void testReplaceMonth() { // Test : month has to be replaced
-		Date newDate;
-		newDate = d1.replace(0, 3, 0);
-		assertEquals(d1.getYear(), newDate.getYear()); // years have to be the
-														// same
-		assertNotEquals(d1.getMonth(), newDate.getMonth()); // months have to be
-															// different
-		assertEquals(3, newDate.getMonth());
-		assertEquals(d1.getDay(), newDate.getDay()); // days have to be the same
-	}
-
-	@Test
-	public void testReplaceDay() { // Test : day has to be replaced
-		Date newDate;
-		newDate = d1.replace(0, 0, 29);
-		assertEquals(d1.getMonth(), newDate.getMonth()); // years have to be the
-															// same
-		assertEquals(d1.getMonth(), newDate.getMonth()); // months have to be
-															// the same
-		assertNotEquals(d1.getDay(), newDate.getDay()); // days have to be
-														// different
-		assertEquals(newDate.getDay(), 29);
-	}
-
-	@Test
-	public void testNothingToReplace() { // Test : nothing to replace
-		Date newDate;
-		newDate = d1.replace(0, 0, 0);
-		assertEquals(d1.getYear(), newDate.getYear()); // years have to be the
-														// same
-		assertEquals(d1.getMonth(), newDate.getMonth()); // months have to be
-															// the same
-		assertEquals(d1.getDay(), newDate.getDay()); // days have to be the same
-
-	}
-
-	@Test
-	public void testFromDayToString() {
-
-		assertEquals(d1.fromDayToString(1), "Monday");
-		assertNotEquals(d1.fromDayToString(2), "Thursday");
-	}
-
-	@Test
-	public void testFromMonthToString() {
-
-		assertEquals(d1.fromMonthToString(1), "January");
-		assertNotEquals(d1.fromMonthToString(6), "July");
-	}
-
-	@Test
-	public void testCTime() {
-
-		// comparing two Strings
-		assertEquals(d1.cTime(), "Saturday February 2 00:00:00 2002");
-		assertNotEquals(d1.cTime(), "Sunday June 26 00:01:02 2007");
-	}
-
 }
