@@ -31,11 +31,21 @@ public class DateTest {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date d1 = format.parse("2016-11-05");
 		Date d2 = Date.fromTimeStamp(d1.getTime()/1000L);
-		
 		assertEquals(2016, d2.getYear());
 		assertEquals(11, d2.getMonth());
-		assertEquals(2, d2.getDay());
-		//TODO: apparament y'a un écart de 1 pour le jour :)
+		assertEquals(5, d2.getDay());
+		
+		d1 = format.parse("1985-06-30");
+		d2 = Date.fromTimeStamp(d1.getTime()/1000L);
+		assertEquals(1985, d2.getYear());
+		assertEquals(06, d2.getMonth());
+		assertEquals(30, d2.getDay());
+		
+		d1 = format.parse("2016-02-28");
+		d2 = Date.fromTimeStamp(d1.getTime()/1000L);
+		assertEquals(2016, d2.getYear());
+		assertEquals(02, d2.getMonth());
+		assertEquals(28, d2.getDay());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
