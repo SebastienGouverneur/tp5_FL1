@@ -1,7 +1,5 @@
 package fr.fiab.tp5.date;
 
-import fr.fiab.tp5.date.impl.Date;
-
 /**
  * Java Conversion of the Python class date
  * @see <a href="https://docs.python.org/3.3/library/datetime.html#datetime.date">Python doc</a>

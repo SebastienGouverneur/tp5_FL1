@@ -10,11 +10,12 @@ public class Date implements IDate {
 
 	private final static int MINYEAR = 1;
 	private final static int MAXYEAR = 9999;
-	
-	private final static int[] numberDaysPerMonthUnLeap = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-	private final static int[] numberDaysPerMonthLeap = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-	private final static String[] monthsName = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep", "Oct", "Nov", "Dec" };
-	private final static String[] daysName = {"Mon", "Thu", "Wed", "Tue", "Wed", "Sat", "Sun"};
+
+	private final static int[] numberDaysPerMonthUnLeap = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	private final static int[] numberDaysPerMonthLeap = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	private final static String[] monthsName = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep", "Oct", "Nov",
+			"Dec" };
+	private final static String[] daysName = { "Mon", "Thu", "Wed", "Tue", "Wed", "Sat", "Sun" };
 
 	public final static IDate MINDATE = new Date(MINYEAR, 1, 1);
 	public final static IDate MAXDATE = new Date(MAXYEAR, 12, 31);
@@ -48,7 +49,7 @@ public class Date implements IDate {
 	 * @return
 	 */
 	public static final Date today() {
-		return Date.fromTimeStamp(System.currentTimeMillis()/1000L);
+		return Date.fromTimeStamp(System.currentTimeMillis() / 1000L);
 	}
 
 	/**
@@ -67,26 +68,25 @@ public class Date implements IDate {
 		if (time < 0 || time > Integer.MAX_VALUE) {
 			throw new IllegalArgumentException("A timestamp must be between 0 and " + Integer.MAX_VALUE);
 		}
-		int day = (int) (time/(24*60*60));
-		int year = (((day * 4) + 2)/1461);
+		int day = (int) (time / (24 * 60 * 60));
+		int year = (((day * 4) + 2) / 1461);
 		int tm_year = year + 1970;
-		int leap = (tm_year & 3L) > 0L ? 0:1;
+		int leap = (tm_year & 3L) > 0L ? 0 : 1;
 		day -= ((year * 1461) + 1) / 4;
 		day += (day > 58 + leap) ? ((leap == 1) ? 1 : 2) : 0;
-		int tm_mon = ((day * 12) + 6)/367;
-		int _mday = day + 1 - ((tm_mon * 367) + 5)/12;
-		return new Date(tm_year, tm_mon+1, _mday+1);
+		int tm_mon = ((day * 12) + 6) / 367;
+		int _mday = day + 1 - ((tm_mon * 367) + 5) / 12;
+		return new Date(tm_year, tm_mon + 1, _mday + 1);
 	}
-	
+
 	/**
-	 * Return the date corresponding to the proleptic Gregorian ordinal,
-	 * where January 1 of year 1 has ordinal 1
+	 * Return the date corresponding to the proleptic Gregorian ordinal, where
+	 * January 1 of year 1 has ordinal 1
 	 * 
 	 * @param ordinal
 	 * @return the local date corresponding to the ordinal specified
 	 * @throws IllegalArgumentException
-	 *             if ordinal < 1 or
-	 *             if ordinal > date.MAXDATE.toOrdinal()
+	 *             if ordinal < 1 or if ordinal > date.MAXDATE.toOrdinal()
 	 */
 	public static IDate fromOrdinal(int ordinal) throws IllegalArgumentException {
 		if (ordinal < 1 || ordinal > Date.MAXDATE.toOrdinal()) {
@@ -96,50 +96,51 @@ public class Date implements IDate {
 		int currentYear = 1;
 		int currentMonth = 1;
 		int currentDay = 1;
-		
+
 		int currentDayInYearUnLeap = 0;
 		int currentDayInYearLeap = 0;
-		
+
 		int auxCurrentDayUnLeap = numberDaysPerMonthUnLeap[i];
 		int auxCurrentDayLeap = numberDaysPerMonthLeap[i];
-		
+
 		/* calcul year */
 		currentYear += (int) (ordinal / 365.25);
-		
+
 		/* calcul month and day not leap year */
 		if (!isLeapYear(currentYear)) {
-			
+
 			currentDayInYearUnLeap = ordinal - new Date(currentYear, 1, 1).toOrdinal() + 1;
-			if(currentDayInYearUnLeap <= numberDaysPerMonthUnLeap[0]) currentMonth = i + 1;
+			if (currentDayInYearUnLeap <= numberDaysPerMonthUnLeap[0])
+				currentMonth = i + 1;
 			else {
 				while (auxCurrentDayUnLeap < currentDayInYearUnLeap) {
 					i++;
 					auxCurrentDayUnLeap += numberDaysPerMonthUnLeap[i];
-					
+
 				}
 				currentMonth += i;
 				currentDay += ordinal - new Date(currentYear, currentMonth, 1).toOrdinal();
 			}
 		}
-		/*calcul month and day leap year */
+		/* calcul month and day leap year */
 		else {
 			currentDayInYearLeap = ordinal - new Date(currentYear, 1, 1).toOrdinal() + 1;
-			if(currentDayInYearLeap <= numberDaysPerMonthLeap[0]) currentMonth = i + 1;
+			if (currentDayInYearLeap <= numberDaysPerMonthLeap[0])
+				currentMonth = i + 1;
 			else {
 				while (auxCurrentDayLeap <= currentDayInYearLeap) {
 					i++;
 					auxCurrentDayLeap += numberDaysPerMonthLeap[i];
-					
+
 				}
 				currentMonth += i;
-				currentDay += ordinal - new Date(currentYear, currentMonth, 1).toOrdinal();;
+				currentDay += ordinal - new Date(currentYear, currentMonth, 1).toOrdinal();
+				;
 			}
 		}
-		
+
 		return new Date(currentYear, currentMonth, currentDay);
 	}
-
-
 
 	/**
 	 * Gives the number of days in the given month of a given year
@@ -199,41 +200,72 @@ public class Date implements IDate {
 	}
 
 	@Override
-	public IDate replace(int year, int month, int day) {
-		
-		if(year != 0) this.year = year;
-		if(month != 0) this.month = month;
-		if(day != 0) this.day = day;
-		return this;
+	/*
+	 * Return a date with the same value, except for those parameters given new
+	 * values by whichever keyword arguments are specified. For example, if Date
+	 * d= new Date(2002, 12, 31), then d.replace(0,0,26) => Date(2002, 12, 26).
+	 */
+	public Date replace(int rYear, int rMonth, int rDay) {
+
+		if (rYear < 0 || rYear > MAXYEAR) {
+			throw new IllegalArgumentException(
+					"The year of a date must be between " + MINYEAR + " and " + MAXYEAR + "or 0");
+		} else if (rMonth < 0 || rMonth > 12) {
+			throw new IllegalArgumentException("The month of a date must be between 1 and 12 or 0");
+		} else if (rDay < 0 || rDay > Date.daysInMonth(year, month)) {
+			throw new IllegalArgumentException("The month of a date must be between 1 and 12 or 0");
+		}
+
+		Date newDate = new Date(this.year, this.month, this.day); // is a copy
+																	// of the
+																	// date
+
+		if (rYear != 0)
+			newDate.year = rYear;
+
+		if (rMonth != 0)
+			newDate.month = rMonth;
+
+		if (rDay != 0)
+			newDate.day = rDay;
+
+		else if (rYear == 0 && rMonth == 0 && rDay == 0) // the date remains the
+															// same
+			return newDate;
+
+		return newDate;
+
 	}
 
 	/**
 	 * Number of days between this date and 1/1/1
+	 * 
 	 * @return ordinal value
 	 */
 	@Override
 	public int toOrdinal() {
 		int ordinalOfCurrentYear = 0;
-		
-		for (int i = 0; i < month - 1; i++){
+
+		for (int i = 0; i < month - 1; i++) {
 			ordinalOfCurrentYear += numberDaysPerMonthUnLeap[i];
 		}
-		
+
 		if (month > 2 && isLeapYear(year))
 			ordinalOfCurrentYear++;
-		
+
 		ordinalOfCurrentYear += day;
-		
-		return (year - 1) * 365 + ((year - 1) / 4) - (year -1) / 100 + (year - 1) / 400 + ordinalOfCurrentYear;
+
+		return (year - 1) * 365 + ((year - 1) / 4) - (year - 1) / 100 + (year - 1) / 400 + ordinalOfCurrentYear;
 	}
 
-	/* Java modulo operator (%) may result in negative integer.
-	 * Example: -1 % 2 returns -1
-	 * We could like to avoid this behavior.
+	/*
+	 * Java modulo operator (%) may result in negative integer. Example: -1 % 2
+	 * returns -1 We could like to avoid this behavior.
 	 */
-	private static int noNegativeModulo(int a, int b){
+	private static int noNegativeModulo(int a, int b) {
 		return (a % b + b) % b;
 	}
+
 	/**
 	 * @return the day of the week from 0 (Monday) to 6 (Sunday)
 	 */
@@ -252,27 +284,29 @@ public class Date implements IDate {
 	}
 
 	private static final int pWeek(int year) {
-		return noNegativeModulo(year + year/4 - year/100 + year/400, 7);
+		return noNegativeModulo(year + year / 4 - year / 100 + year / 400, 7);
 	}
-	
+
 	private static final int numberOfWeeks(int year) {
-		if(pWeek(year) == 5 || pWeek(year-1) == 3) return 53;
-		else return 52;
+		if (pWeek(year) == 5 || pWeek(year - 1) == 3)
+			return 53;
+		else
+			return 52;
 	}
-	
+
 	@Override
 	public IsoCalendar isoCalendar() {
-		//TODO C'est une ebauche :P y'a plusieurs trucs à verifier je crois si on tombe sur des années bissectiles
+		// TODO C'est une ebauche :P y'a plusieurs trucs à verifier je crois si
+		// on tombe sur des années bissectiles
 		IsoCalendar cal = new IsoCalendar();
 		int year = this.year;
 		cal.setDay(this.isoWeekDay());
 		int relativeOrdinal = this.toOrdinal() - new Date(this.year, 1, 1).toOrdinal();
-		int week = (relativeOrdinal - isoWeekDay() + 10)/7;
-		if(week == 0) {
+		int week = (relativeOrdinal - isoWeekDay() + 10) / 7;
+		if (week == 0) {
 			year--;
 			week = numberOfWeeks(year);
-		}
-		else if(week > numberOfWeeks(this.year)) {
+		} else if (week > numberOfWeeks(this.year)) {
 			week = 1;
 			year++;
 		}
@@ -292,8 +326,18 @@ public class Date implements IDate {
 	}
 
 	@Override
+	/*
+	 * date.ctime() Return a string representing the date, for example
+	 * date(2002, 12, 4).ctime() == 'Wed Dec 4 00:00:00 2002'. d.ctime()
+	 */
 	public String cTime() {
-		return daysName[weekDay()] + " " + monthsName[this.month-1] + " " + this.day + "00:00:00" + " " + this.year;
+
+		String cTime = "";
+		int day = this.isoWeekDay(); // from 1 to 7
+		cTime = daysName[day] + " " + monthsName[this.month] + " " + this.day + " " + "00:00:00" + " "
+				+ this.year;
+
+		return cTime;
 	}
 
 	@Override
@@ -329,6 +373,7 @@ public class Date implements IDate {
 		}
 		return true;
 	}
+
 
 	public int getYear() {
 		return year;
