@@ -128,7 +128,7 @@ public class Date implements IDate {
 	 *             if ordinal < 1 or
 	 *             if ordinal > date.MAXDATE.toOrdinal()
 	 */
-	public IDate fromOrdinal(int ordinal) throws IllegalArgumentException {
+	public static IDate fromOrdinal(int ordinal) throws IllegalArgumentException {
 		if (ordinal < 1 || ordinal > Date.MAXDATE.toOrdinal()) {
 			throw new IllegalArgumentException("Ordinal must be between 1 and date.max.toOrdinal()");
 		}

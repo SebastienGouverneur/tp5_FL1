@@ -19,12 +19,6 @@ public interface IDate {
 	public IDate replace(int year, int month, int day) throws IllegalArgumentException;
 	
 	/**
-	 * @return the date corresponding to the proleptic Gregorian ordinal,
-	 * where January 1 of year 1 has ordinal 1
-	 */
-	public IDate fromOrdinal(int ordinal) throws IllegalArgumentException;
-	
-	/**
 	 * @return the proleptic Gregorian ordinal of the date, 
 	 * where January 1 of year 1 has ordinal 1
 	 */
