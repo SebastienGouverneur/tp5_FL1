@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -70,7 +71,11 @@ public class DateTest {
 
 	@Test
 	public void testFromTimestamp() throws Exception {
+		
+		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		format.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
 		java.util.Date d1 = format.parse("2016-11-05");
 		Date d2 = Date.fromTimeStamp(d1.getTime() / 1000L);
 		assertEquals(2016, d2.getYear());
@@ -89,11 +94,12 @@ public class DateTest {
 		assertEquals(02, d2.getMonth());
 		assertEquals(28, d2.getDay());
 		
-		//TODO
-		Date d = Date.fromTimeStamp(0);
-		assertEquals(1970, d.getYear());
-		assertEquals(1, d.getMonth());
-		assertEquals(1, d.getDay());
+		
+		d2 = Date.fromTimeStamp(0);
+		
+		assertEquals(1970, d2.getYear());
+		assertEquals(1, d2.getMonth());
+		assertEquals(1, d2.getDay());
 
 
 	}
