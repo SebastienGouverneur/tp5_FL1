@@ -53,4 +53,8 @@ public interface IDate {
 	 * date(2002, 12, 4).ctime() == 'Wed Dec 4 00:00:00 2002'.
 	 */
 	public String cTime();
+	
+	public int getDay();
+	public int getMonth();
+	public int getYear();
 }

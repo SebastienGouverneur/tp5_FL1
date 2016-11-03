@@ -17,10 +17,13 @@ import fr.fiab.tp5.date.impl.Date;
 public class DateTest {
 
 	private IDate date;
+	private DateFormat format;
 
 	@Before
 	public void setUp() throws Exception {
 		date = new Date(1, 1, 1);// 1er janvier de l'an 1
+		format = new SimpleDateFormat("yyyy-MM-dd");
+		format.setTimeZone(TimeZone.getTimeZone("GMT"));
 	}
 
 	
@@ -72,12 +75,16 @@ public class DateTest {
 	}
 
 	@Test
+	public void testToday() throws Exception {
+		Date d = Date.today();
+		java.time.LocalDate d2 = java.time.LocalDate.now();
+		assertEquals(d2.getDayOfMonth(), d.getDay());
+		assertEquals(d2.getMonthValue(), d.getMonth());
+		assertEquals(d2.getYear(), d.getYear());
+	}
+	
+	@Test
 	public void testFromTimestamp() throws Exception {
-		
-		
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		format.setTimeZone(TimeZone.getTimeZone("GMT"));
-		
 		java.util.Date d1 = format.parse("2016-11-05");
 		Date d2 = Date.fromTimeStamp(d1.getTime() / 1000L);
 		assertEquals(2016, d2.getYear());
@@ -98,14 +105,21 @@ public class DateTest {
 		
 		
 		d2 = Date.fromTimeStamp(0);
-		
 		assertEquals(1970, d2.getYear());
 		assertEquals(1, d2.getMonth());
 		assertEquals(1, d2.getDay());
-
-
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testFromTimeStampExceptionMin() throws Exception{
+		Date.fromTimeStamp(-1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFromTimeStampExceptionMax() throws Exception{
+		Date.fromTimeStamp(Integer.MAX_VALUE + 1);
+	}
+	
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFromTimestampBefore1970() {
@@ -163,6 +177,22 @@ public class DateTest {
 		IsoCalendar actual2 = d2.isoCalendar();
 
 		assertEquals(cal_2017_01_01, actual2);
+		
+		IsoCalendar cal_2010_01_01 = new IsoCalendar();
+		cal_2010_01_01.setDay(5);
+		cal_2010_01_01.setWeek(53);
+		cal_2010_01_01.setYear(2009);
+		Date d3 = new Date(2010, 1, 1);
+		IsoCalendar actual3 = d3.isoCalendar();
+		assertEquals(cal_2010_01_01, actual3);
+		
+		IsoCalendar cal_2012_12_31 = new IsoCalendar();
+		cal_2012_12_31.setDay(1);
+		cal_2012_12_31.setWeek(1);
+		cal_2012_12_31.setYear(2013);
+		Date d4 = new Date(2012, 12, 31);
+		IsoCalendar actual4 = d4.isoCalendar();
+		assertEquals(cal_2012_12_31, actual4);
 	}
 
 	@Test
@@ -224,11 +254,27 @@ public class DateTest {
 	
 	@Test
 	public void testReplace(){
-		date.replace(0, 0, 2);
-		date.replace(0, 2, 2);
-		date.replace(1993, 2, 22);
-		date.replace(2004, 2, 29); 
-		date.replace(2003, 2, 28);
+		IDate d = new Date(1, 1, 1);
+		IDate d2;
+		
+		d2 = d.replace(0, 0, 0);
+		
+		assertEquals(d, d2);
+		
+		d2 = d.replace(0, 0, 2);
+		assertEquals(d2.getYear(), d.getYear());
+		assertEquals(d2.getMonth(), d.getMonth());
+		assertNotEquals(d2.getDay(), d.getDay());
+		
+		d2 = d.replace(0, 5, 0);
+		assertEquals(d2.getYear(), d.getYear());
+		assertNotEquals(d2.getMonth(), d.getMonth());
+		assertEquals(d2.getDay(), d.getDay());
+
+		d2 = d.replace(3, 0, 0);
+		assertNotEquals(d2.getYear(), d.getYear());
+		assertEquals(d2.getMonth(), d.getMonth());
+		assertEquals(d2.getDay(), d.getDay());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -265,6 +311,85 @@ public class DateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testReplaceDayHigherThanMaxForNotLeapYear(){
 		date.replace(2003, 2, 29);
+	}
+	
+	@Test
+	public void testCtime() {
+		Date d = new Date(2016, 11, 2);
+		assertEquals("Wed Nov 2 00:00:00 2016", d.cTime());
+		d = new Date(2016, 2, 29);
+		assertEquals("Mon Feb 29 00:00:00 2016", d.cTime());
+	}
+	
+	@Test
+	public void testEquals() {
+		Date d1 = new Date(2016, 11, 2);
+		Date d2 = new Date(2016, 11, 2);
+		
+		assertEquals(d1, d1);
+		assertEquals(d1, d2);
+		assertEquals(d2, d1);
+		
+		assertFalse(d1.equals(null));
+		assertFalse(d1.equals("string"));
+		
+		d2 = new Date(2016, 11, 3);
+		assertNotEquals(d1, d2);
+		assertNotEquals(d2, d1);
+		
+		d2 = new Date(2016, 10, 2);
+		assertNotEquals(d1, d2);
+		assertNotEquals(d2, d1);
+		
+		d2 = new Date(2015, 11, 2);
+		assertNotEquals(d1, d2);
+		assertNotEquals(d2, d1);
+	}
+	
+	@Test
+	public void testIsoCalendarBean() {
+		IsoCalendar c = new IsoCalendar();
+		c.setDay(1);
+		c.setWeek(1);
+		c.setYear(1);
+		
+		assertEquals(1, c.getDay());
+		assertEquals(1, c.getWeek());
+		assertEquals(1, c.getYear());
+	}
+	
+	@Test
+	public void testIsoCalendarBeanEquals() {
+		IsoCalendar c1 = new IsoCalendar();
+		c1.setDay(1);
+		c1.setWeek(1);
+		c1.setYear(1);
+		
+		IsoCalendar c2 = new IsoCalendar();
+		c2.setDay(1);
+		c2.setWeek(1);
+		c2.setYear(1);
+		
+		assertFalse(c1.equals(null));
+		assertFalse(c1.equals("string"));
+		assertEquals(c1, c2);
+		assertEquals(c2, c1);
+		
+		c2.setDay(2);
+		assertNotEquals(c1, c2);
+		assertNotEquals(c2, c1);
+		
+		c2.setDay(1);
+		c2.setWeek(2);
+		assertNotEquals(c1, c2);
+		assertNotEquals(c2, c1);
+		
+		c2.setWeek(1);
+		c2.setYear(2);
+		assertNotEquals(c1, c2);
+		assertNotEquals(c2, c1);
+		
+		assertEquals(c1, c1);
 	}
 	
 }

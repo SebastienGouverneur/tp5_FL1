@@ -1,8 +1,5 @@
 package fr.fiab.tp5.date.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
 import fr.fiab.tp5.date.IDate;
 import fr.fiab.tp5.date.IsoCalendar;
 
@@ -13,7 +10,7 @@ public class Date implements IDate {
 
 	private final static int[] numberDaysPerMonthUnLeap = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private final static int[] numberDaysPerMonthLeap = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-	private final static String[] monthsName = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep", "Oct", "Nov",
+	private final static String[] monthsName = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
 			"Dec" };
 	private final static String[] daysName = { "Mon", "Thu", "Wed", "Tue", "Wed", "Sat", "Sun" };
 
@@ -36,7 +33,7 @@ public class Date implements IDate {
 			throw new IllegalArgumentException("The year of a date must be between " + MINYEAR + " and " + MAXYEAR);
 		} else if (month < 1 || month > 12) {
 			throw new IllegalArgumentException("The month of a date must be between 1 and 12");
-		} else if (day < 1 || day > Date.daysInMonth(year, month)) {
+		} else if (day < 1 || day > daysInMonth(year, month)) {
 			throw new IllegalArgumentException("The day is incorrect");
 		}
 		this.year = year;
@@ -44,6 +41,11 @@ public class Date implements IDate {
 		this.day = day;
 	}
 
+	private int daysInMonth(int year, int month) {
+		if(isLeapYear(year)) return numberDaysPerMonthLeap[month-1];
+		else return numberDaysPerMonthUnLeap[month-1];
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -65,18 +67,20 @@ public class Date implements IDate {
 	 *             if the timestamp is invalid
 	 */
 	public static final Date fromTimeStamp(long timestamp) throws IllegalArgumentException {
+		
 		if (timestamp < 0 || timestamp > Integer.MAX_VALUE) {
 			throw new IllegalArgumentException("A timestamp must be between 0 and " + Integer.MAX_VALUE);
 		}
+		
 		int day = (int) (timestamp / (24 * 60 * 60));
 		int year = (((day * 4) + 2) / 1461);
-		int tm_year = year + 1970;
-		int leap = (tm_year & 3L) > 0L ? 0 : 1;
+		int resultYear = year + 1970;
+		int leap = (resultYear & 3L) > 0L ? 0 : 1;
 		day -= ((year * 1461) + 1) / 4;
 		day += (day > 58 + leap) ? ((leap == 1) ? 1 : 2) : 0;
-		int tm_mon = ((day * 12) + 6) / 367;
-		int _mday = day + 1 - ((tm_mon * 367) + 5) / 12;
-		return new Date(tm_year, tm_mon + 1, _mday);
+		int resultMonth = ((day * 12) + 6) / 367 + 1;
+		int resultDay = day + 1 - (((resultMonth-1) * 367) + 5) / 12;
+		return new Date(resultYear, resultMonth, resultDay);
 	}
 
 	/**
@@ -146,35 +150,6 @@ public class Date implements IDate {
 	}
 
 	/**
-	 * Gives the number of days in the given month of a given year
-	 * 
-	 * @param year
-	 * @param month
-	 * @return
-	 * @throws IllegalArgumentException
-	 *             if the year or month is invalid (e.g. month == 13)
-	 */
-	private static int daysInMonth(int year, int month) throws IllegalArgumentException {
-		if (year < MINYEAR || year > MAXYEAR) {
-			throw new IllegalArgumentException("A year must be between " + MINYEAR + " and " + MAXYEAR);
-		} else if (month < 1 || month > 12) {
-			throw new IllegalArgumentException("A month must be between 1 and 12");
-		}
-
-		List<Integer> longMonths = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
-		List<Integer> shortMonths = Arrays.asList(4, 6, 9, 11);
-
-		if (longMonths.contains(month)) {
-			return 31;
-		} else if (shortMonths.contains(month)) {
-			return 30;
-		} else {
-			// Only remaining case is february (month == 2)
-			return isLeapYear(year) ? 29 : 28;
-		}
-	}
-
-	/**
 	 * Checks if a year is a leap year (bissextile)
 	 * 
 	 * @see <a href="https://en.wikipedia.org/wiki/Leap_year">Leap year
@@ -182,15 +157,8 @@ public class Date implements IDate {
 	 * @param year
 	 *            the year to be checked
 	 * @return true if and only if the year in parameter is a leap year in the
-	 *         Gregorian calendar
-	 * @throws IllegalArgumentException
-	 *             if the year in parameter is invalid
-	 */
+	 *         Gregorian calendar*/
 	private static boolean isLeapYear(int year) throws IllegalArgumentException {
-		if (year < MINYEAR || year > MAXYEAR) {
-			throw new IllegalArgumentException("A year must be between " + MINYEAR + " and " + MAXYEAR);
-		}
-
 		if (year % 4 != 0) {
 			return false;
 		} else if (year % 100 != 0) {
@@ -202,32 +170,12 @@ public class Date implements IDate {
 		}
 	}
 
-	/*
-	 * Return a date with the same value, except for those parameters given new
-	 * values by whichever keyword arguments are specified. For example, if Date
-	 * d= new Date(2002, 12, 31), then d.replace(0,0,26) => Date(2002, 12, 26).
-	 */
+	
 	@Override
-
 	public IDate replace(int year, int month, int day) {
-		int tmp_year = this.year, tmp_month = this.month;
-		if (year < 0 || year > MAXYEAR)
-			throw new IllegalArgumentException("The year of a date must be between " + MINYEAR + " and " + MAXYEAR);
-		if (month < 0 || month > 12)
-			throw new IllegalArgumentException("The month of a date must be between 1 and 12");
-		if (day < 0)
-			throw new IllegalArgumentException("The day must be higher or equal than 0");
-
-		if(year != 0) tmp_year = year;
-		if(month != 0) tmp_month = month;
-		if(day != 0){
-			if (day > Date.daysInMonth(tmp_year, tmp_month))
-				throw new IllegalArgumentException("The day is incorrect");
-		this.day = day;
-		}
-		this.year = tmp_year;
-		this.month = tmp_month;
-		return this;
+		return new Date(year == 0 ? this.year: year,
+						month == 0 ? this.month:month,
+						day == 0 ? this.day: day);
 
 	}
 
@@ -281,7 +229,7 @@ public class Date implements IDate {
 		return noNegativeModulo(year + year / 4 - year / 100 + year / 400, 7);
 	}
 
-	private static final int numberOfWeeks(int year) {
+	private final int numberOfWeeks(int year) {
 		if (pWeek(year) == 5 || pWeek(year - 1) == 3)
 			return 53;
 		else
@@ -318,23 +266,9 @@ public class Date implements IDate {
 	}
 
 	@Override
-	/*
-	 * date.ctime() Return a string representing the date, for example
-	 * date(2002, 12, 4).ctime() == 'Wed Dec 4 00:00:00 2002'. d.ctime()
-	 */
 	public String cTime() {
-		return daysName[this.isoWeekDay()] + " " + monthsName[this.month] + " " 
+		return daysName[this.weekDay()] + " " + monthsName[this.month - 1] + " " 
 				+ this.day + " " + "00:00:00" + " " + this.year;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + day;
-		result = prime * result + month;
-		result = prime * result + year;
-		return result;
 	}
 
 	@Override

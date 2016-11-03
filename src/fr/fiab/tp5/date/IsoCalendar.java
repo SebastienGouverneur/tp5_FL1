@@ -63,16 +63,6 @@ public class IsoCalendar {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + day;
-		result = prime * result + week;
-		result = prime * result + year;
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -94,6 +84,11 @@ public class IsoCalendar {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "IsoCalendar [day=" + day + ", week=" + week + ", year=" + year + "]";
 	}
 	
 	
