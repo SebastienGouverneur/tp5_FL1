@@ -209,4 +209,50 @@ public class DateTest {
 		assertEquals(7, date5.isoWeekDay());
 
 	}
+	
+	@Test
+	public void testReplace(){
+		date.replace(0, 0, 2);
+		date.replace(0, 2, 2);
+		date.replace(1993, 2, 22);
+		date.replace(2004, 2, 29); 
+		date.replace(2003, 2, 28);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceYearLowerThanZero(){
+		date.replace(-1, 1, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceMonthLowerThanZero(){
+		date.replace(1, -1, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceDayLowerThanZero(){
+		date.replace(1, 1, -1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceYearHigherThanMax(){
+		date.replace(10000, 1, 1);
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceMonthHigherThanMax(){
+		date.replace(1, 13, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceDayHigherThanMaxForLeapYear(){
+		date.replace(2004, 2, 30);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceDayHigherThanMaxForNotLeapYear(){
+		date.replace(2003, 2, 29);
+	}
+	
 }
