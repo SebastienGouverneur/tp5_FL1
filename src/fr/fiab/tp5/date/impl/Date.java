@@ -37,7 +37,7 @@ public class Date implements IDate {
 		} else if (month < 1 || month > 12) {
 			throw new IllegalArgumentException("The month of a date must be between 1 and 12");
 		} else if (day < 1 || day > Date.daysInMonth(year, month)) {
-			throw new IllegalArgumentException("The month of a date must be between 1 and 12");
+			throw new IllegalArgumentException("The day is incorrect");
 		}
 		this.year = year;
 		this.month = month;
@@ -202,41 +202,32 @@ public class Date implements IDate {
 		}
 	}
 
-	@Override
 	/*
 	 * Return a date with the same value, except for those parameters given new
 	 * values by whichever keyword arguments are specified. For example, if Date
 	 * d= new Date(2002, 12, 31), then d.replace(0,0,26) => Date(2002, 12, 26).
 	 */
-	public Date replace(int rYear, int rMonth, int rDay) {
+	@Override
 
-		if (rYear < 0 || rYear > MAXYEAR) {
-			throw new IllegalArgumentException(
-					"The year of a date must be between " + MINYEAR + " and " + MAXYEAR + "or 0");
-		} else if (rMonth < 0 || rMonth > 12) {
-			throw new IllegalArgumentException("The month of a date must be between 1 and 12 or 0");
-		} else if (rDay < 0 || rDay > Date.daysInMonth(year, month)) {
-			throw new IllegalArgumentException("The month of a date must be between 1 and 12 or 0");
+	public IDate replace(int year, int month, int day) {
+		int tmp_year = this.year, tmp_month = this.month;
+		if (year < 0 || year > MAXYEAR)
+			throw new IllegalArgumentException("The year of a date must be between " + MINYEAR + " and " + MAXYEAR);
+		if (month < 0 || month > 12)
+			throw new IllegalArgumentException("The month of a date must be between 1 and 12");
+		if (day < 0)
+			throw new IllegalArgumentException("The day must be higher or equal than 0");
+
+		if(year != 0) tmp_year = year;
+		if(month != 0) tmp_month = month;
+		if(day != 0){
+			if (day > Date.daysInMonth(tmp_year, tmp_month))
+				throw new IllegalArgumentException("The day is incorrect");
+		this.day = day;
 		}
-
-		Date newDate = new Date(this.year, this.month, this.day); // is a copy
-																	// of the
-																	// date
-
-		if (rYear != 0)
-			newDate.year = rYear;
-
-		if (rMonth != 0)
-			newDate.month = rMonth;
-
-		if (rDay != 0)
-			newDate.day = rDay;
-
-		else if (rYear == 0 && rMonth == 0 && rDay == 0) // the date remains the
-															// same
-			return newDate;
-
-		return newDate;
+		this.year = tmp_year;
+		this.month = tmp_month;
+		return this;
 
 	}
 

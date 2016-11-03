@@ -2,9 +2,11 @@ package fr.fiab.tp5.date;
 
 import static org.junit.Assert.*;
 
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -104,14 +106,16 @@ public class DateTest {
 
 	}
 
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testFromTimestampBefore1970() {
 		Date.fromTimeStamp(-1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testFromTimestampAfter2030() {
-		Date.fromTimeStamp(Integer.MAX_VALUE + 1);
+	public void testFromTimestampAfter2038() {
+		Date.fromTimeStamp(Integer.MAX_VALUE + 1);	
+
 	}
 
 	@Test
@@ -217,4 +221,50 @@ public class DateTest {
 		assertEquals(7, date5.isoWeekDay());
 
 	}
+	
+	@Test
+	public void testReplace(){
+		date.replace(0, 0, 2);
+		date.replace(0, 2, 2);
+		date.replace(1993, 2, 22);
+		date.replace(2004, 2, 29); 
+		date.replace(2003, 2, 28);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceYearLowerThanZero(){
+		date.replace(-1, 1, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceMonthLowerThanZero(){
+		date.replace(1, -1, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceDayLowerThanZero(){
+		date.replace(1, 1, -1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceYearHigherThanMax(){
+		date.replace(10000, 1, 1);
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceMonthHigherThanMax(){
+		date.replace(1, 13, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceDayHigherThanMaxForLeapYear(){
+		date.replace(2004, 2, 30);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testReplaceDayHigherThanMaxForNotLeapYear(){
+		date.replace(2003, 2, 29);
+	}
+	
 }
